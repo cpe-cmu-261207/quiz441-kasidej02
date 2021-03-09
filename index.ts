@@ -102,14 +102,7 @@ app.get("/balance", (req, res) => {
 
 app.post("/deposit", body("amount").isInt({ min: 1 }), (req, res) => {
   //Is amount <= 0 ?
-  const { amount } = req.body;
-  const file = JSON.parse(
-    fs.readFileSync("./users.json", { encoding: "utf-8" })
-  ); //Write file
-  const { users } = file;
-
-  users.balance = users.balance - amount;
-  res.json(users);
+ 
   if (!validationResult(req).isEmpty())
     return res.status(400).json({ message: "Invalid data" });
 });
@@ -130,7 +123,6 @@ app.delete("/reset", (req, res) => {
 });
 
 app.get("/me", (req, res) => {
-  // res.json("OK")
   res.json({
     firstname: "Kasidej",
     lastname: "Kammool",
