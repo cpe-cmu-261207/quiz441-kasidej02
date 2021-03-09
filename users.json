@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "username": "kandy",
+      "password": "$2b$10$sY8c2b7kvc31JzGv5lmQ0.I132W2sVNGh3W/QVlDys2UfrFQhcF2m",
+      "firstname": "kasidej",
+      "lastname": "kammool",
+      "balance": 1234
+    }
+  ]
+}
