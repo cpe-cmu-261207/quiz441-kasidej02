@@ -56,7 +56,7 @@ app.post("/register", (req, res) => {
     (user: { username: any }) => user.username === username
   );
   console.log(existUser);
-  if(!existUser){
+  if (!existUser) {
     let lastPersonId = 1;
     if (users.length > 0) {
       lastPersonId = users[users.length - 1].id;
@@ -70,30 +70,29 @@ app.post("/register", (req, res) => {
       balance: balance,
     };
     const updatedFile = file.users.push(newUser);
-  fs.writeFileSync("./users.json", JSON.stringify(file));
-  res.json({ message: "Register successfully" });
-  }else{
+    fs.writeFileSync("./users.json", JSON.stringify(file));
+    res.json({ message: "Register successfully" });
+  } else {
     res.status(400).json({ message: "Username is already in used" });
   }
-  
+
   // users.push(newUser);
-  
 });
 
 app.get("/balance", (req, res) => {
   const token = req.query.token as string;
-  
+
   try {
-    const { username } = jwt.verify(token, SECRET) as JWTPayload; 
+    const { username } = jwt.verify(token, SECRET) as JWTPayload;
     const { users } = JSON.parse(
       fs.readFileSync("./users.json", { encoding: "utf-8" })
     ); //Write file
     const user = users.find(
-      (user: { username: any; password: string }) =>
-        user.username === username) //เดิม password
+      (user: { username: any; password: string }) => user.username === username
+    ); //เดิม password
     res.json({
       name: user.firstname + " " + user.lastname,
-      balance: user.balance
+      balance: user.balance,
     });
   } catch (e) {
     //response in case of invalid token
@@ -108,18 +107,14 @@ app.post("/deposit", body("amount").isInt({ min: 1 }), (req, res) => {
     fs.readFileSync("./users.json", { encoding: "utf-8" })
   ); //Write file
   const { users } = file;
-  // const existUser = file.users.find(
-  //   (user: { username: any }) => user.username === username
-  // );
-  users.balance = users.balance - amount
-  res.json(users)
+
+  users.balance = users.balance - amount;
+  res.json(users);
   if (!validationResult(req).isEmpty())
     return res.status(400).json({ message: "Invalid data" });
 });
 
-app.post("/withdraw", (req, res) => {
-
-});
+app.post("/withdraw", (req, res) => {});
 
 app.delete("/reset", (req, res) => {
   //code your database reset here
@@ -136,14 +131,12 @@ app.delete("/reset", (req, res) => {
 
 app.get("/me", (req, res) => {
   // res.json("OK")
-  res.json(
-    {
-      firstname: "Kasidej",
-      lastname : "Kammool",
-      code : 620610776,
-      gpa : 3.45
-    }
-  )
+  res.json({
+    firstname: "Kasidej",
+    lastname: "Kammool",
+    code: 620610776,
+    gpa: 3.45,
+  });
 });
 
 app.get("/demo", (req, res) => {
