@@ -103,15 +103,22 @@ app.get("/balance", (req, res) => {
 
 app.post("/deposit", body("amount").isInt({ min: 1 }), (req, res) => {
   //Is amount <= 0 ?
-  if(body.arguments <= 0){
-
-  }
+  const { amount } = req.body;
+  const file = JSON.parse(
+    fs.readFileSync("./users.json", { encoding: "utf-8" })
+  ); //Write file
+  const { users } = file;
+  // const existUser = file.users.find(
+  //   (user: { username: any }) => user.username === username
+  // );
+  users.balance = users.balance - amount
+  res.json(users)
   if (!validationResult(req).isEmpty())
     return res.status(400).json({ message: "Invalid data" });
 });
 
 app.post("/withdraw", (req, res) => {
-  
+
 });
 
 app.delete("/reset", (req, res) => {
@@ -129,10 +136,14 @@ app.delete("/reset", (req, res) => {
 
 app.get("/me", (req, res) => {
   // res.json("OK")
-  const { users } = JSON.parse(
-    fs.readFileSync("./users.json", { encoding: "utf-8" })
-  ); //Write file
-  res.json(users);
+  res.json(
+    {
+      firstname: "Kasidej",
+      lastname : "Kammool",
+      code : 620610776,
+      gpa : 3.45
+    }
+  )
 });
 
 app.get("/demo", (req, res) => {
